@@ -36,10 +36,10 @@
       include_role:
         name: install-kustomize
 
-    - name: install airshipctl
-      shell: |
-        cd {{ local_src_dir | default(zuul.project.src_dir) }}
-        ./tools/deployment/common/21_systemwide_executable.sh
+    # - name: install airshipctl
+    #   shell: |
+    #     cd {{ local_src_dir | default(zuul.project.src_dir) }}
+    #     ./tools/deployment/common/21_systemwide_executable.sh
     - name: make sure serve directory exists
       file:
         dest: "{{ serve_dir }}"
@@ -66,6 +66,7 @@
         path: "{{ roleinputvar.path }}"
       loop:
         - { name: 'target', path: 'ephemeral/controlplane' }
+        - { name: 'target', path: 'target/controlplane' }
         - { name: 'ephemeral', path: 'ephemeral/bootstrap' }
         - { name: 'worker', path: 'target/workers' }
       loop_control:
@@ -93,7 +94,7 @@
             target_vm_cfg: "{{ target_vm_cfg }}"
             target_vm_memory_mb: 7168
             target_vm_vcpus: 2
-            target_vms_count: 1
+            target_vms_count: 3
             worker_disk_size: 35G
             worker_vm_cfg: "{{ worker_vm_cfg }}"
             worker_vm_memory_mb: 7168
